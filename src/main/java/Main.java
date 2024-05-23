@@ -29,7 +29,7 @@ public class Main {
     }
 
 
-    private static Map<String, Object> readFromFile(String filePath){
+    protected static Map<String, Object> readFromFile(String filePath){
         try(FileReader reader = new FileReader(filePath)) {
             Gson gson = new Gson();
             Type type = new TypeToken<Map<String, Object>>(){}.getType();
@@ -40,7 +40,7 @@ public class Main {
         }
     }
 
-    private static void writeToFile(String filePath, Object data){
+    protected static void writeToFile(String filePath, Object data){
         try(FileWriter writer = new FileWriter(filePath)){
             Gson gson = gsonBeauty();
             writer.write(gson.toJson(data));
@@ -53,7 +53,7 @@ public class Main {
         return new GsonBuilder().setPrettyPrinting().create();
     }
 
-    public static Map<String, Object> obfuscate(Map<String, Object> data) {
+    protected static Map<String, Object> obfuscate(Map<String, Object> data) {
         Map<String, Object> obfuscated = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : data.entrySet()) {
             obfuscated.put(unicodeEsc(entry.getKey()), obfuscateValue(entry.getValue()));
@@ -61,7 +61,7 @@ public class Main {
         return obfuscated;
     }
 
-    private static Object obfuscateValue(Object value) {
+    protected static Object obfuscateValue(Object value) {
         switch (value) {
             case Map map -> {
                 return obfuscate((Map<String, Object>) value);
